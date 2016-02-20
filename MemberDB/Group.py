@@ -100,10 +100,10 @@ class Group():
         
         Returns a list of Members who are a member of the Group.
         '''
-        for key in self.attributes(['member']):
-            print key
-        print self.DN()
-        memberDNs = self.attributes(['member'])['member']
+        try:
+            memberDNs = self.attributes(['member'])['member']
+        except KeyError:
+            return []
         members = []
         for memberDN in memberDNs:
             if memberDN != self._directory.STRUCTURAL_USER:
