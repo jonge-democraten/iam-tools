@@ -1,5 +1,4 @@
 import Group
-import Permission
 import LdapConnection
 import SqlConnection
 import re
@@ -27,19 +26,6 @@ class Role:
         Return a human-readable representation of the Role, namely its name.
         '''
         return self._name
-    
-    def __contains__(self, permission):
-        '''
-        (Role, Permission) -> bool
-        
-        Returns True iff the Role contains the Permission specified.
-        '''
-        sql = "SELECT 1 from roles_perms WHERE role = %s AND perm = %s"
-        value = (self._name, permission.get_name())
-        rows = self._database.dosql(sql, value, True)
-        for row in rows:
-            return True
-        return False
     
     def __eq__(self, otherRole):
         '''
@@ -80,95 +66,28 @@ class Role:
         if not self.exists():
             raise Exception("Could not delete role: role does not exist.")
         else:
-            for permission in self.permissions():
-                self.remove(permission)
             self._roleGroup.delete()
     
-    def add(self, permission):
-        '''
-        (Role, Permission) -> None
-        
-        Adds permission to this Role.
-        '''
-        if permission in self:
-            raise Exception("Could not add permission: role already contains permission.")
-        else:
-            sql = "INSERT INTO roles_perms (role, perm) VALUES (%s, %s);"
-            value = (self._name, permission.get_name())
-            self._database.dosql(sql, value, False)
-            for member in self._roleGroup.members():
-                try:
-                    permission.grant(member)
-                except Exception, e:
-                    if not e == "Member already has permission.":
-                        raise Exception(e)
-                    
-    def remove(self, permission):
-        '''
-        (Role, Permission) -> None
-        
-        Removes permission from this Role.
-        '''
-        if not permission in self:
-            raise Exception("Could not remove permission: role does not contain permission.")
-        else:
-            for member in self._roleGroup.members():
-                memberRoles = member.roles()
-                found = False
-                for memberRole in memberRoles:
-                    if not memberRole == self and permission in memberRole:
-                        found = True
-                        break
-                if not found:
-                    try:
-                        permission.revoke(member)
-                    except Exception, e:
-                        if not e == "Member does not have permission.":
-                            raise Exception(e)
-            sql = "DELETE FROM roles_perms WHERE role = %s AND perm = %s"
-            value = (self._name, permission.get_name())
-            self._database.dosql(sql, value, False)
-            
     def grant(self, member):
         '''
         (Role, Member) -> None
         
-        Grant this Role to this Member. All associated permissions will be granted as well.
+        Grant this Role to this Member.
         '''
         if not member.is_user():
             raise Exception("Can not grant role to members who are not users.")
         else:
             self._roleGroup.add(member)
-            for permission in self.permissions():
-                if not permission.granted_to(member):
-                    try:
-                        permission.grant(member)
-                    except Exception, e:
-                        if not e == "Member already has permission.":
-                            raise Exception(e)
     
     def revoke(self, member):
         '''
         (Role, Member) -> None
         
-        Revoke this Role from this Member. All associated permissions will also be revoked, unless the user also posesses them through an other role.
+        Revoke this Role from this Member.
         '''
         if not member.is_user():
             raise Exception("Can not revoke role from members who are not users.")
         else:
-            permissionsToRevoke = self.permissions()
-            roleNameList = member.role_list()
-            otherRoleList = []
-            for roleName in roleNameList:
-                otherRoleList.append(Role(self._directory, self._database, roleName))
-            for permission in permissionsToRevoke:
-                found = False
-                for otherRole in otherRoleList:
-                    if permission in otherRole:
-                        found = True
-                        break
-                if not found:
-                    permission.revoke(member)
             self._roleGroup.remove(member)
     
     def get_name(self):
@@ -186,20 +105,6 @@ class Role:
         Returns all users who have this role as a list of Members.
         '''
         return self._roleGroup.members()
-    
-    def permissions(self):
-        '''
-        (Role) -> list
-        
-        Returns a list of all Permissions that are associated with the role.
-        '''
-        sql = "SELECT perm FROM roles_perms WHERE role = %s"
-        value = (self._name)
-        rows = self._database.dosql(sql, value, True)
-        permissions = []
-        for row in rows:
-            permissions.append(Permission.Permission(self._directory, self._database, row[0]))
-        return permissions
     
     def exists(self):
         '''

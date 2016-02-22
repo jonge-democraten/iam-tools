@@ -1,5 +1,4 @@
 import Role
-import Permission
 import Group
 import Member
 import LdapConnection
@@ -121,36 +120,3 @@ class MemberDatabase:
         for groupEntry in results:
             groupList.append(Group.Group.from_dn(self._directory, self._database, groupEntry[0]))
         return groupList        
-    
-    def all_permissions(self):
-        '''
-        (MemberDatabase) -> list
-        
-        Returns a list of Permissions that have been defined in the MemberDatabase.
-        '''
-        permissions = []
-        sql = "SELECT DISTINCT perm FROM roles_perms"
-        rows = self._database.dosql(sql, "", True)
-        for row in rows:
-            permissions.append(Permission.Permission(self._directory, self._database, row[0]))
-        return permissions
-    
-    def fix(self):
-        '''
-        (MemberDatabase) -> None
-        
-        Fix the assigned permissions: revoke all permissions, then grant permissions based on the roles of users.
-        '''
-        roles = self.all_roles()
-        permissions = self.all_permissions()
-        users = self.search_users()
-        for user in users:
-            for permission in permissions:
-                if permission.granted_to(user):
-                    permission.revoke(user)
-        
-        for role in roles:
-            for member in role.members():
-                for permission in role.permissions():
-                    if not permission.granted_to(member):
-                        permission.grant(member)

@@ -12,7 +12,7 @@ class Group():
         '''
         (Group, LdapConnection, SqlConnection, str, str) -> None
         
-        Initialize the Group instance from the groupName. groupSubOU indicates whether the group is in the group root (default) or in some subOU of the groups-OU (e.g. for some permission groups).
+        Initialize the Group instance from the groupName. groupSubOU indicates whether the group is in the group root (default) or somewhere else.
         
         Example:
         If groups are in 'ou=groups,dc=example,dc=com' by default, to place your group in 'ou=new,ou=groups,dc=example,dc=com', groupsSubOU should be 'ou=new,'. Do not forget the trailing comma.

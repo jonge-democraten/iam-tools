@@ -6,7 +6,6 @@ import MemberDatabase
 import Role
 import Group
 import Member
-import Permission
 import helper
 from optparse import OptionParser
 import smtplib

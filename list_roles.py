@@ -6,7 +6,6 @@ import MemberDatabase
 import Role
 import Group
 import Member
-import Permission
 import helper
 
 mdb = MemberDatabase.MemberDatabase(helper.ldapcfg, helper.dbcfg, helper.logger)

@@ -6,7 +6,6 @@ import MemberDatabase
 import Role
 import Group
 import Member
-import Permission
 import helper
 
 mdb = MemberDatabase.MemberDatabase(helper.ldapcfg, helper.dbcfg, helper.logger)
@@ -68,19 +67,3 @@ if __name__ == "__main__":
             roleUsers = role.members()
             for user in roleUsers:
                 print fill_with_spaces(user.get_full_name(), 0, LARGE_TAB)
-                
-    print ""
-    print "Roles and permissions"
-    for role in roleList:
-        print fill_with_spaces(role.get_name() + ":", 0, SMALL_TAB)
-        for permission in role.permissions():
-            print fill_with_spaces(permission.get_name(), 0, LARGE_TAB)
-            
-    print ""
-    print "Number of users with permission"
-    permissionList = mdb.all_permissions()
-    for permission in permissionList:
-        permstring = " "*SMALL_TAB+permission.get_name()+":"
-        spaces = " "*(LARGE_TAB - len(permstring))
-        print(fill_with_spaces(permission.get_name()+":", LARGE_TAB, SMALL_TAB) + str(permission.number_of_users()))
-
