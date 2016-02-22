@@ -222,7 +222,7 @@ class Member:
     
     def generate_password(self, passwordType):
         '''
-        (int) -> str
+        (Member, int) -> str
         
         Generates and returns one password of type passwordType.
         
