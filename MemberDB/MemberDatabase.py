@@ -16,10 +16,14 @@ class MemberDatabase:
         '''
         (MemberDatabase, dict, dict, Logger) -> None
         
-        Initializes the MemberDatabase, by connecting to the associated LDAP directory and SQL database.
+        Initializes the MemberDatabase, by connecting to the associated LDAP directory
+        and SQL database.
         
-        ldapConfig contains three keys: name (hostname of server), dn (user as whom to bind), password.
-        sqlConfig contains four keys: host (hostname of server), user (username as whom to connect), password and name (database to which to connect).
+        ldapConfig contains three keys: name (hostname of server), dn (user as whom
+        to bind), password.
+
+        sqlConfig contains four keys: host (hostname of server), user (username as whom
+        to connect), password and name (database to which to connect).
         '''
         self._directory = LdapConnection.LdapConnection(ldapConfig['name'], ldapConfig['dn'], ldapConfig['password'], loggingFacility)
         self._database = SqlConnection.SqlConnection(sqlConfig['host'], sqlConfig['name'], sqlConfig['user'], sqlConfig['password'], loggingFacility)
@@ -29,7 +33,8 @@ class MemberDatabase:
         '''
         (MemberDatabase) -> LdapConnection, SqlConnection
         
-        Returns the connectors that are generated during the initiation of the MemberDatabase.
+        Returns the connectors that are generated during the initiation of
+        the MemberDatabase.
         '''
         return self._directory, self._database
         
@@ -37,9 +42,11 @@ class MemberDatabase:
         '''
         (MemberDatabase, str, list) -> list
         
-        Searches for the user records matching searchFilter and return them as a list of Members.
+        Searches for the user records matching searchFilter and return them as a list
+        of Members.
         
-        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns no results.
+        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns
+        no results.
         '''
         searchFilter = "(&("+searchFilter+")(uid=*))"
         return self.search_members(searchFilter)
@@ -48,9 +55,11 @@ class MemberDatabase:
         '''
         (LdapConnection, str, list) -> list
         
-        Searches for the member records matching searchFilter and return them as a list of Members.
+        Searches for the member records matching searchFilter and return them as a list
+        of Members.
 
-        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns no results.
+        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns
+        no results.
         '''
         memberEntries = self._directory.search_members(searchFilter, ['cn'])
         members = []
@@ -119,4 +128,4 @@ class MemberDatabase:
         groupList = []
         for groupEntry in results:
             groupList.append(Group.Group.from_dn(self._directory, self._database, groupEntry[0]))
-        return groupList        
+        return groupList

@@ -12,10 +12,13 @@ class Group():
         '''
         (Group, LdapConnection, SqlConnection, str, str) -> None
         
-        Initialize the Group instance from the groupName. groupSubOU indicates whether the group is in the group root (default) or somewhere else.
+        Initialize the Group instance from the groupName. groupSubOU indicates whether
+        the group is in the group root (default) or somewhere else.
         
         Example:
-        If groups are in 'ou=groups,dc=example,dc=com' by default, to place your group in 'ou=new,ou=groups,dc=example,dc=com', groupsSubOU should be 'ou=new,'. Do not forget the trailing comma.
+        If groups are in 'ou=groups,dc=example,dc=com' by default, to place your group
+        in 'ou=new,ou=groups,dc=example,dc=com', groupsSubOU should be 'ou=new,'.
+        Do not forget the trailing comma.
         '''
         self._directory = directory
         self._database = database
@@ -54,7 +57,8 @@ class Group():
         '''
         (Group, Group) -> bool
         
-        Returns True iff the two Groups are not equivalent (i.e. have different group names).
+        Returns True iff the two Groups are not equivalent (i.e. have different
+        group names).
         '''
         return not self.__eq__(otherGroup)
 
@@ -114,7 +118,10 @@ class Group():
         '''
         (Group) -> dict
         
-        Returns a dict of attributes for the Group. The dict includes the default attributes and the ones specified in extraAttributes. Each key is an attribute name, and the corresponding element is a list of values assigned to this attribute.
+        Returns a dict of attributes for the Group. The dict includes the default
+        attributes and the ones specified in extraAttributes. Each key is an
+        attribute name, and the corresponding element is a list of values assigned
+        to this attribute.
         '''
         return self._directory.attributes(self.DN(), extraAttributes)
     

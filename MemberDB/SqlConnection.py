@@ -10,7 +10,8 @@ class SqlConnection:
         '''
         (SqlConnection, str, str, str) -> None
         
-        Takes all the credentials to start an SQL connection and creates the connection object.
+        Takes all the credentials to start an SQL connection and creates the connection
+        object.
         '''
         self.db = MySQLdb.connect(host, username, password, database)
         self._connection = self.db.cursor()
@@ -22,7 +23,8 @@ class SqlConnection:
         '''
         (SqlConnection) -> str
         
-        Returns a human-readable representation of the connection that includes the username used to connect and the database where we work.
+        Returns a human-readable representation of the connection that includes
+        the username used to connect and the database where we work.
         '''
         return self._username + " @ " + self._database
            
@@ -30,11 +32,19 @@ class SqlConnection:
         '''
         (SqlConnection, str, tuple, bool, bool) -> list (or None)
         
-        Executes the SQL query in sql, including the tuple value. The values in the tuple value are set in place of the placeholders in sql. The placeholders should correspond to the types in the tuple value, e.g. %s should be used to insert an str. To not pass values, pass an empty string. If expectRows is True, the rows are fetched with fetchall() and returned to the caller as a list of lists. Otherwise, the function returns None. dryrun specifies whether we are in a debugging scenario: if it is True, queries are logged but not executed. None is returned whenever dryrun is True. 
+        Executes the SQL query in sql, including the tuple value. The values in
+        the tuple value are set in place of the placeholders in sql. The placeholders
+        should correspond to the types in the tuple value, e.g. %s should be used
+        to insert an str. To not pass values, pass an empty string. If expectRows
+        is True, the rows are fetched with fetchall() and returned to the caller as
+        a list of lists. Otherwise, the function returns None. dryrun specifies whether
+        we are in a debugging scenario: if it is True, queries are logged but
+        not executed. None is returned whenever dryrun is True.
         
         Examples:
         
-        > instance.dosql("INSERT INTO table (firstname, lastname) VALUES (%s, %s)", ("John", "Doe"), False)
+        > instance.dosql("INSERT INTO table (firstname, lastname) VALUES (%s, %s)",
+            ("John", "Doe"), False)
         None
         > instance.dosql("SELECT * FROM table", "", True)
         [['John', 'Doe']]

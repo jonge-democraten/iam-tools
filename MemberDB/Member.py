@@ -31,7 +31,8 @@ class Member:
         '''
         (Member) -> str
         
-        Returns a human-readable representation of Member, which is a string containing lidnummer.
+        Returns a human-readable representation of Member, which is a string
+        containing lidnummer.
         '''
         return str(self._lidnummer)
     
@@ -39,7 +40,8 @@ class Member:
         '''
         (Member, Member) -> bool
         
-        Returns True iff the two Members are equivalent (i.e. have the same lidnummer).
+        Returns True iff the two Members are equivalent (i.e. have the same
+        lidnummer).
         '''
         if isinstance(otherMember, self.__class__):
             return self._lidnummer == otherMember.get_lidnummer()
@@ -50,7 +52,8 @@ class Member:
         '''
         (Member, Member) -> bool
         
-        Returns True iff the two Members are not equivalent (i.e. have different lidnummers).
+        Returns True iff the two Members are not equivalent (i.e. have different
+        lidnummers).
         '''
         return not self.__eq__(otherMember)
 
@@ -59,7 +62,8 @@ class Member:
         '''
         (method, LdapConnection, SqlConnection, str) -> class
         
-        Convert username to lidnummer, then call constructor. Raises a UsernameError if the username does not exist.
+        Convert username to lidnummer, then call constructor. Raises a UsernameError
+        if the username does not exist.
         '''
         try:
             lidnummer = int(directory.search_members("uid="+username, ['cn'])[0][1]['cn'][0])
@@ -71,7 +75,8 @@ class Member:
         '''
         (Member) -> list
         
-        Looks up the names of the groups to which Member belongs and returns a list of them.
+        Looks up the names of the groups to which Member belongs and returns
+        a list of them.
         '''
         #groupDNs = self.attributes(['memberOf'])['memberOf']
         groupResults = self._directory.search('member=%s'%(self.DN()), self._directory.GROUPS_BASEDN+self._directory.SUFFIX, ldap.SCOPE_SUBTREE, ['cn'])
@@ -111,7 +116,8 @@ class Member:
         '''
         (Member, str, str, str) -> None
         
-        Creates a new Member in the MemberDatabase with attributes as provided. fullName becomes sn, mail becomes mail and department becomes ou.
+        Creates a new Member in the MemberDatabase with attributes as provided.
+        fullName becomes sn, mail becomes mail and department becomes ou.
         '''
         attributes = {}
         attributes['objectClass'] = ['inetOrgPerson']
@@ -132,7 +138,10 @@ class Member:
         '''
         (Member) -> dict
 
-        Returns a dict of attributes for the Member. The dict includes the default attributes and the ones specified in extraAttributes. Each key is an attribute name, and the corresponding element is a list of values assigned to this attribute.
+        Returns a dict of attributes for the Member. The dict includes the default
+        attributes and the ones specified in extraAttributes. Each key is an attribute
+        name, and the corresponding element is a list of values assigned to
+        this attribute.
         '''
         return self._directory.attributes(self.DN(), extraAttributes)
 
@@ -161,7 +170,8 @@ class Member:
         '''
         (Member, str) -> None
         
-        Registers a username in the usernames table for this Member. This prevents the assignment of duplicate usernames in the future.
+        Registers a username in the usernames table for this Member. This prevents
+        the assignment of duplicate usernames in the future.
         '''
         sql = "INSERT INTO usernames (lidnummer, username) VALUES (%s, %s)"
         value = (str(self._lidnummer), username)
@@ -171,7 +181,10 @@ class Member:
         '''
         (Member, str, int) -> None
         
-        Promotes member to user, by assigning a username and password. Returns the generated password. Will raise a UsernameError if the username has been used before. Will raise a UserError if the member is already a user. Will raise a LidnummerError if the lidnummer provided does not refer to a Member.
+        Promotes member to user, by assigning a username and password. Returns
+        the generated password. Will raise a UsernameError if the username has been
+        used before. Will raise a UserError if the member is already a user. Will raise
+        a LidnummerError if the lidnummer provided does not refer to a Member.
         
         Password types are as follows:
         
@@ -200,9 +213,12 @@ class Member:
         '''
         (Member, int, str) -> None
         
-        Demotes user to member, by deleting his username and resetting his password. Caller should require the username be provided separately as an additional check.
+        Demotes user to member, by deleting his username and resetting his password.
+        Caller should require the username be provided separately as an additional check.
         
-        Will raise a UsernameError if there is username is not the username of this user. Will raise a LidnummerError if lidnummer does not refer to a Member. Will raise MemberError if the member referred to by lidnummer is not a user.
+        Will raise a UsernameError if there is username is not the username of this user.
+        Will raise a LidnummerError if lidnummer does not refer to a Member. Will raise
+        MemberError if the member referred to by lidnummer is not a user.
         '''
         if not self.exists():
             raise LidnummerError("Lidnummer does not refer to a Member.")
@@ -265,7 +281,7 @@ class Member:
     
     def get_full_name(self):
         '''
-        (Member) -> int
+        (Member) -> str
         
         Returns the full name of the Member.
         '''
@@ -273,7 +289,7 @@ class Member:
     
     def get_mail(self):
         '''
-        (Member) -> int
+        (Member) -> str
         
         Returns the e-mail address of the Member.
         '''
@@ -281,7 +297,7 @@ class Member:
     
     def get_afdeling(self):
         '''
-        (Member) -> int
+        (Member) -> str
         
         Returns the afdeling of the Member.
         '''
@@ -323,12 +339,16 @@ class MemberError(Exception):
 
 class UsernameError(MemberError):
     '''
-    A UsernameError indicates that something went wrong with the validity or existence of a username. For example, a new Member instance was created based on a username, but the username does not actually exist.
+    A UsernameError indicates that something went wrong with the validity or existence
+    of a username. For example, a new Member instance was created based on a username,
+    but the username does not actually exist.
     '''
     
 class LidnummerError(MemberError):
     '''
-    A LidnummerError indicates that something went wrong with the validity or existence of a lidnummer. For example, a Member is asked to be promoted to user, but the lidnummer provided does not match the member.
+    A LidnummerError indicates that something went wrong with the validity or existence
+    of a lidnummer. For example, a Member is asked to be promoted to user, but
+    the lidnummer provided does not match the member.
     '''
 
 def is_valid_lidnummer(lidnummer):

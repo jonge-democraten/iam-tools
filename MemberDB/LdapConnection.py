@@ -20,7 +20,8 @@ class LdapConnection:
         '''
         (LdapConnection, str, str, str, Logger) -> None
         
-        Takes all the credentials to start an LDAP connection and creates the connection object.
+        Takes all the credentials to start an LDAP connection and creates
+        the connection object.
         
         Will handle any LDAP errors itself and stop exection upon failure.
         '''
@@ -38,7 +39,8 @@ class LdapConnection:
         '''
         (LdapConnection) -> str
         
-        Returns a human-readable representation of the connection that includes the DN used to connect and the hostname where the server runs.
+        Returns a human-readable representation of the connection that includes the DN
+        used to connect and the hostname where the server runs.
         '''
         return self._dn + " @ " + self._hostname
 
@@ -46,9 +48,16 @@ class LdapConnection:
         '''
         (LdapConnection, str, str, ldap.SCOPE, list, bool) -> list
         
-        Searches for the records matching searchFilter under the baseDN, according to the searchScope provided. For each record, retrieves the  attributes specified in targetAttributes. Will return a list of records, with each record being a tuple (DN, attributes). attributes is a dict of lists, with each key being one attribute. The list associated with each key contains the values assigned to this attribute in this record.
+        Searches for the records matching searchFilter under the baseDN, according to
+        the searchScope provided. For each record, retrieves the  attributes specified in
+        targetAttributes. Will return a list of records, with each record being a tuple
+        (DN, attributes). attributes is a dict of lists, with each key being one
+        attribute. The list associated with each key contains the values assigned
+        to this attribute in this record.
         
-        By default, will not throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns no results, but rather return an empty list. This behavior can be set in the suppressNoResults argument. 
+        By default, will not throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if
+        the search returns no results, but rather return an empty list. This behavior
+        can be set in the suppressNoResults argument.
         '''
         ldapResultId = self._connection.search(baseDN, searchScope, searchFilter, targetAttributes)
         while 1:
@@ -64,9 +73,14 @@ class LdapConnection:
         '''
         (LdapConnection, str, list) -> list
         
-        Retrieves the attributes of the record specified in DN. For this attributes, the default attributes are retrieved, together with the extra attributes defined in the list extraAttributes. Will return a dict of lists, with each key being one attribute. The list associated with each key contains the values assigned to this attribute in the record DN.
+        Retrieves the attributes of the record specified in DN. For this attributes,
+        the default attributes are retrieved, together with the extra attributes defined
+        in the list extraAttributes. Will return a dict of lists, with each key being
+        one attribute. The list associated with each key contains the values assigned
+        to this attribute in the record DN.
         
-        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns no results.
+        Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns
+        no results.
         '''
         targetAttributes = ['*']
         targetAttributes.extend(extraAttributes)
@@ -77,7 +91,9 @@ class LdapConnection:
         '''
         (LdapConnection, str, dict) -> None
         
-        Adds a record to the LDAP directory at toAddDN. attributes is a dict of lists, with each key being one attribute. The list associated with each key contains the values to be assigned to this attribute in the record toAddDN.
+        Adds a record to the LDAP directory at toAddDN. attributes is a dict of lists,
+        with each key being one attribute. The list associated with each key contains
+        the values to be assigned to this attribute in the record toAddDN.
         
         Will throw an LDAP exception if adding does not succeed.
         '''
@@ -100,7 +116,9 @@ class LdapConnection:
         '''
         (LdapConnection, str, list) -> None
         
-        Modifies the record in the LDAP directory at toModifyDN. modifications specifies what to change: it is a list of modifications to make. Each element is a 3-tuple (operation, attribute, value).
+        Modifies the record in the LDAP directory at toModifyDN. modifications specifies
+        what to change: it is a list of modifications to make. Each element is a 3-tuple
+        (operation, attribute, value).
         
         Example:
         
@@ -118,7 +136,8 @@ class LdapConnection:
         '''
         (LdapConnection, str, str) -> None
         
-        Modifies the member record in the LDAP directory at memberDN. The modification is that the password is set to passwordToSet.
+        Modifies the member record in the LDAP directory at memberDN. The modification
+        is that the password is set to passwordToSet.
         '''
         self._connection.passwd_s(memberDN, None, passwordToSet)
         
@@ -126,7 +145,11 @@ class LdapConnection:
         '''
         (LdapConnection, str, list) -> list
         
-        Searches for the member records matching searchFilter. For each record, retrieves the attributes specified in targetAttributes. Will return a list of records, with each record being a tuple (DN, attributes). attributes is a dict of lists, with each key being one attribute. The list associated with each key contains the values assigned to this attribute in this record.
+        Searches for the member records matching searchFilter. For each record, retrieves
+        the attributes specified in targetAttributes. Will return a list of records, with
+        each record being a tuple (DN, attributes). attributes is a dict of lists,
+        with each key being one attribute. The list associated with each key contains
+        the values assigned to this attribute in this record.
 
         Will throw an LDAP exception (ldap.NO_RESULTS_RETURNED) if the search returns no results.
         '''
