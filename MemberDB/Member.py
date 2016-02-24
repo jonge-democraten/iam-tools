@@ -405,7 +405,7 @@ def is_valid_afdeling(afdeling):
     
     Returns True iff afdeling is a valid afdeling for Member. Does not do whitelisting on valid names.
     '''
-    return re.match("^[A-Za-z \-]+$")
+    return re.match("^[A-Za-z \-]+$", afdeling)
 
 def is_valid_afdeling_filter(afdelingFilter):
     '''
@@ -413,5 +413,5 @@ def is_valid_afdeling_filter(afdelingFilter):
     
     Returns True iff afdelingFilter is a valid afdeling search query for Member.
     '''
-    return re.match("^ou=\*?[A-Za-z \-]+\*?$")
+    return re.match("^ou=\*?[A-Za-z \-]+\*?$", afdelingFilter)
 
