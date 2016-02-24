@@ -50,7 +50,7 @@ class Member:
         '''
         (Member, Member) -> bool
         
-        Returns True iff the two Groups are not equivalent (i.e. have different group names).
+        Returns True iff the two Members are not equivalent (i.e. have different lidnummers).
         '''
         return not self.__eq__(otherMember)
 
@@ -123,19 +123,19 @@ class Member:
     def delete(self):
         '''
         (Member) -> None
-        
+
         Deletes the Member from the MemberDatabase.
         '''
         self._directory.delete(self.DN())
-    
+
     def attributes(self, extraAttributes = []):
         '''
         (Member) -> dict
-        
+
         Returns a dict of attributes for the Member. The dict includes the default attributes and the ones specified in extraAttributes. Each key is an attribute name, and the corresponding element is a list of values assigned to this attribute.
         '''
         return self._directory.attributes(self.DN(), extraAttributes)
-    
+
     def is_user(self):
         '''
         (Member) -> bool
