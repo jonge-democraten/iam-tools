@@ -36,5 +36,8 @@ if __name__ == "__main__":
 
     # Delete out-of-band member
     fullName = member.get_full_name()
+    for group in mdb.all_groups():
+        if member in group:
+            group.remove(member)
     member.delete()
     helper.logger.info("Deleted out-of-band member %s (%s)." % (fullName, memberId))

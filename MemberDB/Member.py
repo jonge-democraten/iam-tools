@@ -78,7 +78,6 @@ class Member:
         Looks up the names of the groups to which Member belongs and returns
         a list of them.
         '''
-        #groupDNs = self.attributes(['memberOf'])['memberOf']
         groupResults = self._directory.search('member=%s'%(self.DN()), self._directory.GROUPS_BASEDN+self._directory.SUFFIX, ldap.SCOPE_SUBTREE, ['cn'])
         groupDNs = []
         for groupResult in groupResults:

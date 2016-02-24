@@ -100,7 +100,7 @@ class MemberDatabase:
         memberRoleNameList = member.role_list()
         for memberRoleName in memberRoleNameList:
             Role.Role(self._directory, self._database, memberRoleName).revoke(member)
-    
+
     def all_roles(self):
         '''
         (MemberDatabase) -> list
