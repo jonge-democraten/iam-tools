@@ -30,6 +30,12 @@ if __name__ == "__main__":
     
     # The function make_user also checks whether the provided lidnummer is actually a user.
     member = Member.Member(l,s,int(lidnummer))
+    if not member.exists():
+        helper.logger.error("User with this lidnummer does not exist. Aborting...")
+        sys.exit()
+    if len(member.role_list()) > 0:
+        helper.logger.error("User has roles. Remove roles of user before removing user. Aborting...")
+        sys.exit()
     try:
         password = member.remove_user(lidnummer, username)
     except Member.UsernameError, e:
