@@ -151,6 +151,7 @@ class Group():
         Add member to group.
         '''
         self._directory.modify(self.DN(), [(ldap.MOD_ADD, "member", member.DN())])
+        self._directory.modify(self.DN(), [(ldap.MOD_ADD, "memberUid", member.get_username())])
         
     def remove(self, member):
         '''
@@ -159,6 +160,7 @@ class Group():
         Remove member from group.
         '''
         self._directory.modify(self.DN(), [(ldap.MOD_DELETE, "member", member.DN())])
+        self._directory.modify(self.DN(), [(ldap.MOD_DELETE, "memberUid", member.get_username())])
     
     def DN(self):
         '''
