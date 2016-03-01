@@ -82,7 +82,7 @@ Hartelijke groeten,
 Het ICT-team""" % (fullName, username, password))
 
     msg['Subject'] = "Wachtwoord-reset voor MijnJD-account"
-    msg['From'] = "Jonge Democraten ICT-team <ict@jd.nl>"
+    msg['From'] = "Jonge Democraten ICT-team <noreply@jd.nl>"
     msg['To'] = "%s <%s>" % (fullName, mail)
 
     try:
