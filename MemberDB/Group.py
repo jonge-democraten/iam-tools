@@ -166,6 +166,6 @@ class Group():
         '''
         (Group) -> str
     
-        Constructs and returns the DN at which Member should be located in directory.
+        Constructs and returns the DN at which Group should be located in directory.
         '''
         return "cn=%s,%s%s%s" % (self._name, self._subOU, self._directory.GROUPS_BASEDN, self._directory.SUFFIX)
