@@ -1,0 +1,16 @@
+##################################################
+# After filling out the connection details here, #
+# keep this file world-unreadable and out of git #
+##################################################
+
+[database]
+host=127.0.0.1
+name=<mysql DB name>
+user=<mysql username>
+password=<mysql password>
+
+[ldapcfg]
+name=ldap://127.0.0.1:389/
+dn=<ldap user DN>
+password=<ldap password>
+
