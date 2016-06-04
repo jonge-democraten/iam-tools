@@ -33,10 +33,8 @@ if __name__ == "__main__":
     if not member.exists():
         helper.logger.error("User with this lidnummer does not exist. Aborting...")
         sys.exit()
-    if len(member.role_list()) > 0:
-        helper.logger.error("User has roles. Remove roles of user before removing user. Aborting...")
-        sys.exit()
     try:
+        mdb.revoke_all_roles(member)
         password = member.remove_user(lidnummer, username)
     except Member.UsernameError, e:
         helper.logger.error(e)
