@@ -132,7 +132,8 @@ class Group():
         Creates the Group in the MemberDatabase.
         '''
         attributes = {}
-        attributes['objectClass'] = ['groupOfNames']
+        attributes['objectClass'] = ['groupOfNames', 'posixGroup']
+        attributes['gidNumber'] = ['500']
         attributes['member'] = [self._directory.STRUCTURAL_USER]
         self._directory.add(self.DN(), attributes)        
             
