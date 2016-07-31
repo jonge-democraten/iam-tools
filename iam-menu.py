@@ -216,7 +216,7 @@ Password entropy is always at least 50 bits. Password length is adjusted accordi
         state = "removeuser"
     elif user_input == "8":
         output = "== Reset password for a user =="
-        menu = """Enter desired password type (0-3) and lidnummer or username for the user (e.g. 3 myuser).
+        menu = """Enter lidnummer or username and desired password type (0-3) for the user (e.g. myuser 3).
 
 Password type is one of the following:
 
