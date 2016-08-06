@@ -14,3 +14,5 @@ name=ldap://127.0.0.1:389/
 dn=<ldap user DN>
 password=<ldap password>
 
+[mail]
+host=localhost

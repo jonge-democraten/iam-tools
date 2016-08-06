@@ -86,7 +86,7 @@ Het ICT-team""" % (fullName, username, password))
     msg['To'] = "%s <%s>" % (fullName, mail)
 
     try:
-        sm = smtplib.SMTP('localhost')
+        sm = smtplib.SMTP(helper.mailcfg['host'])
         sm.sendmail("ict@jd.nl", mail, msg.as_string())
         sm.quit()
     except socket.error, v:
