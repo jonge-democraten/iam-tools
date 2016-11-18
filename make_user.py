@@ -26,7 +26,7 @@ Er is voor jou een MijnJD-account aangemaakt. Met een MijnJD-account kun je op e
   Gebruikersnaam: %s
   Wachtwoord: %s
 
-Op http://mijn.jongedemocraten.nl vind je een overzicht van plaatsen waar je met deze gegevens in kunt loggen. Daar vind je ook gebruikershandleidingen voor die systemen.
+Op https://mijn.jongedemocraten.nl vind je een overzicht van plaatsen waar je met deze gegevens in kunt loggen. Daar vind je ook gebruikershandleidingen voor die systemen.
 
 Als je nog vragen hebt over dit systeem, neem dan contact op met het ICT-team op ict@jd.nl.
 
