@@ -22,11 +22,12 @@ class MemberDatabase:
         ldapConfig contains three keys: name (hostname of server), dn (user as whom
         to bind), password.
 
-        sqlConfig contains four keys: host (hostname of server), user (username as whom
-        to connect), password and name (database to which to connect).
+        sqlConfig contains five keys: host (hostname of server), port (port of server),
+        user (username as whom to connect), password and name (database to which to
+        connect).
         '''
         self._directory = LdapConnection.LdapConnection(ldapConfig['name'], ldapConfig['dn'], ldapConfig['password'], loggingFacility)
-        self._database = SqlConnection.SqlConnection(sqlConfig['host'], sqlConfig['name'], sqlConfig['user'], sqlConfig['password'], loggingFacility)
+        self._database = SqlConnection.SqlConnection(sqlConfig['host'], sqlConfig['port'], sqlConfig['name'], sqlConfig['user'], sqlConfig['password'], loggingFacility)
         self._logger = loggingFacility
         
     def get_connectors(self):

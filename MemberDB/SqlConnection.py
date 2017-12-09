@@ -6,17 +6,18 @@ class SqlConnection:
     Class to set up and employ an SQL connection.
     '''
     
-    def __init__(self, host, database, username, password, loggingFacility):
+    def __init__(self, host, port, database, username, password, loggingFacility):
         '''
-        (SqlConnection, str, str, str) -> None
+        (SqlConnection, str, int, str, str, str, logger) -> None
         
         Takes all the credentials to start an SQL connection and creates the connection
         object.
         '''
-        self.db = MySQLdb.connect(host, username, password, database)
+        self.db = MySQLdb.connect(host, username, password, database, port)
         self._connection = self.db.cursor()
         self._username = username
         self._database = database
+        self._port = port
         self._logger = loggingFacility
 
     def __str__(self):
@@ -26,7 +27,7 @@ class SqlConnection:
         Returns a human-readable representation of the connection that includes
         the username used to connect and the database where we work.
         '''
-        return self._username + " @ " + self._database
+        return self._username + " @ " + self._database + ":" + self._port
            
     def dosql(self, sql, value, expectRows, dryrun=False):
         '''
