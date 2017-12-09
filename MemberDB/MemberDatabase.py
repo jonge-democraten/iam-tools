@@ -27,7 +27,7 @@ class MemberDatabase:
         connect).
         '''
         self._directory = LdapConnection.LdapConnection(ldapConfig['name'], ldapConfig['dn'], ldapConfig['password'], loggingFacility)
-        self._database = SqlConnection.SqlConnection(sqlConfig['host'], sqlConfig['port'], sqlConfig['name'], sqlConfig['user'], sqlConfig['password'], loggingFacility)
+        self._database = SqlConnection.SqlConnection(sqlConfig['host'], int(sqlConfig['port']), sqlConfig['name'], sqlConfig['user'], sqlConfig['password'], loggingFacility)
         self._logger = loggingFacility
         
     def get_connectors(self):
