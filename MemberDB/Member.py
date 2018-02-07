@@ -158,7 +158,7 @@ class Member:
         
         Returns whether a username is in use or has ever been used before.
         '''
-        sql = "SELECT * FROM usernames WHERE username = %s" 
+        sql = "SELECT * FROM usernames WHERE username = '%s'"
         value = (username)
         rows = self._database.dosql(sql, value, True)
         for row in rows:
@@ -172,7 +172,7 @@ class Member:
         Registers a username in the usernames table for this Member. This prevents
         the assignment of duplicate usernames in the future.
         '''
-        sql = "INSERT INTO usernames (lidnummer, username) VALUES (%s, %s)"
+        sql = "INSERT INTO usernames (lidnummer, 'username') VALUES (%s, %s)"
         value = (str(self._lidnummer), username)
         self._database.dosql(sql, value, False)
         
