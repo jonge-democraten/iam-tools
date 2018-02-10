@@ -159,7 +159,7 @@ class Member:
         Returns whether a username is in use or has ever been used before.
         '''
         sql = "SELECT * FROM usernames WHERE username = %s" 
-        value = (username)
+        value = (username,)
         rows = self._database.dosql(sql, value, True)
         for row in rows:
             return True
